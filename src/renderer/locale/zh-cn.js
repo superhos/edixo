@@ -1,0 +1,22 @@
+export const content = {
+  'search_placeholder': '搜索內容',
+  'content_placeholder': '',
+  'select_hexo_folder': '选择HEXO博客目录',
+  'build_hexo_folder': '新建HEXO博客',
+  'edixo_introduce': '方便 / 快捷 / Hexo博客客户端',
+  'no_hexo': '请先在系统安装hexo-cli',
+  'input_blog_name': '输入博客目录名(英文)',
+  'cancel': '取消',
+  'select_save_folder': '选择目录',
+  'build_success': '创建博客成功',
+  'building': '博客创建中...',
+  'not_hexo_path': '该文档不是HEXO博客文档',
+  'input': '新文章',
+  'notific': '通知',
+  'save_success': '保存成功',
+  'auto_save_success': '自动保存成功',
+  'delete_confirm': '是否确认删除该篇文章',
+  'confirm': '确认',
+  'delete_success': '删除成功',
+  'system_error': '系统异常'
+}

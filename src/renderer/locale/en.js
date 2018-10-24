@@ -1,0 +1,22 @@
+export const content = {
+  'search_placeholder': 'Search Content',
+  'content_placeholder': '',
+  'select_hexo_folder': 'Select Hexo Project',
+  'build_hexo_folder': 'Build New Hexo',
+  'edixo_introduce': 'Convenient / Fast / Hexo Blog Client',
+  'no_hexo': 'Please install the Hexo-cli on System first.',
+  'input_blog_name': 'Input the blog name',
+  'cancel': 'cancel',
+  'select_save_folder': 'Choose the Dicrectory',
+  'build_success': 'Build Successfully',
+  'building': 'Building Blog...',
+  'not_hexo_path': 'This not the Hexo project',
+  'input': 'New Post',
+  'notific': 'Notification',
+  'save_success': 'Save successfully',
+  'auto_save_success': 'Auto save successfully',
+  'delete_confirm': 'Confirm to delete this article?',
+  'confirm': 'Confirm',
+  'delete_success': 'Delete Successfully',
+  'system_error': 'System error'
+}
