@@ -51,7 +51,7 @@ const path = require('path')
 // const fs = require('fs')
 
 export default {
-  name: 'select-folder',
+  name: 'enter-page',
   data () {
     return {
       showLoading: false,
@@ -76,20 +76,19 @@ export default {
   },
   methods: {
     initBlog () {
-      const that = this
       const remind = this.$t('message.building')
       dialog.showOpenDialog({properties: ['openDirectory']}, async (pathName) => {
         if (!pathName) return
-        that.showInputName = false
-        that.loadingMsg = remind
-        that.showLoading = true
-        const result = await Hexo.initBlog(pathName[0], that.blogName)
-        that.showLoading = false
+        this.showInputName = false
+        this.loadingMsg = remind
+        this.showLoading = true
+        const result = await Hexo.initBlog(pathName[0], this.blogName)
+        this.showLoading = false
         if (result.result) {
-          that.$db.set(CONSTANT.HEXO_PROJ_PATH, `${pathName[0]}${path.sep}${that.blogName}`)
-          that.$electron.ipcRenderer.sendSync('open-main')
+          this.$db.set(CONSTANT.HEXO_PROJ_PATH, `${pathName[0]}${path.sep}${this.blogName}`)
+          this.$electron.ipcRenderer.sendSync('open-main')
         } else {
-          that.$message({
+          this.$message({
             showClose: true,
             message: result.msg,
             type: 'error',
@@ -99,13 +98,12 @@ export default {
       })
     },
     selectDic () {
-      const that = this
       dialog.showOpenDialog({properties: ['openDirectory']}, (pathName) => {
         if (!pathName) return
         // 检查是否是Hexo
         const result = Hexo.checkIsHexoPath(pathName[0])
         if (!result.result) {
-          that.$message({
+          this.$message({
             showClose: true,
             message: result.msg,
             type: 'error',
@@ -114,8 +112,8 @@ export default {
           return
         }
         // 打开项目
-        that.$db.set(CONSTANT.HEXO_PROJ_PATH, pathName[0])
-        that.$electron.ipcRenderer.sendSync('open-main')
+        this.$db.set(CONSTANT.HEXO_PROJ_PATH, pathName[0])
+        this.$electron.ipcRenderer.sendSync('open-main')
       })
     }
   }

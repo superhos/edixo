@@ -2,7 +2,7 @@
   <!-- Layout -->
   <div id="app">
     <el-container>
-      <el-aside class="tool-bar" v-show="this.$route.path !== '/select'">
+      <el-aside class="tool-bar" v-show="this.$route.path !== '/enter'">
         <ul>
           <li @click="addPost" class="add"><i class="el-icon-plus" /></li>
           <router-link to="/" tag="li" exact><i class="el-icon-document" /></router-link>

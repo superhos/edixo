@@ -20,7 +20,7 @@ Vue.use(ElementUI)
 Vue.use(VueI18n)
 Vue.use(mavonEditor)
 
-Vue.prototype.$db = new Store()
+Vue.$db = Vue.prototype.$db = new Store()
 
 const i18n = new VueI18n({
   locale: 'en',

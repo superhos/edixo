@@ -38,7 +38,7 @@
     </div>
     <article class="content-zone" :style="contentStyle">
         <div class="content">
-            <mavon-editor ref="md" :placeholder="$t('message.content_placeholder')" @save="save" @imgAdd="imgAdd" @change="changeHandle" :language="lang" :style="contentStyle" :subfield="editMode" v-model="curPost.content" :toolbarsFlag="editMode" defaultOpen="preview" />
+            <mavon-editor ref="md" :placeholder="$t('message.content_placeholder')" @save="save" @imgAdd="imgAdd" @change="changeHandle" :language="lang" :style="contentStyle" :subfield="editMode" v-model="curPost.raw" :toolbarsFlag="editMode" defaultOpen="preview" />
         </div>
     </article>
   </div>
@@ -72,8 +72,8 @@ export default {
   },
   computed: {
     curPost () {
-      if (this.$store.state.Post.cur.id !== this.curId) {
-        this.curId = this.$store.state.Post.cur.id
+      if (this.$store.state.Post.cur._id !== this.curId) {
+        this.curId = this.$store.state.Post.cur._id
         this.editMode = !this.curId
       }
       return _.cloneDeep(this.$store.state.Post.cur)
@@ -99,7 +99,7 @@ export default {
     save (auto) {
       if (this.curId) {
         this.$store.dispatch('updatePost', this.curPost)
-        this.$store.dispatch('showPost', this.curPost.id)
+        this.$store.dispatch('showPost', this.curPost._id)
       } else {
         this.$store.dispatch('addNewPost', this.curPost)
       }
@@ -137,17 +137,16 @@ export default {
       this.lastModifyTime = new Date().getTime()
     },
     deletePost () {
-      const that = this
-      this.$confirm(that.$i18n.t('message.delete_confirm'), that.$i18n.t('message.notific'), {
-        confirmButtonText: that.$i18n.t('message.confirm'),
-        cancelButtonText: that.$i18n.t('message.cancel'),
+      this.$confirm(this.$i18n.t('message.delete_confirm'), this.$i18n.t('message.notific'), {
+        confirmButtonText: this.$i18n.t('message.confirm'),
+        cancelButtonText: this.$i18n.t('message.cancel'),
         type: 'warning'
       }).then(() => {
-        // that.$message({
+        // this.$message({
         //   type: 'success',
-        //   message: that.$i18n.t('message.delete_success')
+        //   message: this.$i18n.t('message.delete_success')
         // })
-        that.$store.dispatch('delPost', that.curPost)
+        this.$store.dispatch('delPost', this.curPost)
       }).catch(() => {
       })
     }

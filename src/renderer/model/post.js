@@ -1,6 +1,7 @@
 import moment from 'moment'
 import Store from 'electron-store'
 import CONSTANT from '../../common/constant'
+import router from '../../renderer/router'
 const fs = require('fs')
 const path = require('path')
 const isChinese = require('is-chinese')
@@ -8,28 +9,46 @@ const pinyin = require('chinese-to-pinyin')
 const rimraf = require('rimraf')
 
 export default class Post {
-  constructor (content, paths) {
-    this.id = paths
-    this.path = paths
-    this.fileName = paths ? paths.substring(paths.lastIndexOf('/') + 1, paths.lastIndexOf('.')) : ''
-    this.content = ''
-    this.title = ''
-    this.date = ''
-    this.staticDir = paths ? paths.replace('.md', '') : ''
+  constructor (options, sourcePath) {
+    this.title = options.title || router.app.$t('message.unnamed')
+    this._content = options._content || ''
+    this.source = options.source || ''
+    this.raw = options.raw || ''
+    this.slug = options.slug || ''
+    this.published = options.published || 0
+    this.date = options.date || ''
+    this.updated = options.updated || ''
+    this.comments = options.comments || 0
+    this.layout = options.layout || ''
+    this.photos = options.photos || []
+    this.link = options.link || ''
+    this._id = options._id || ''
+    this.content = options.content || ''
+    this.site = options.site || {}
+    this.excerpt = options.excerpt || ''
+    this.more = options.more || ''
+
+    // this._id = paths
+    this.path = path.resolve(sourcePath, this.source)
+    // this.fileName = paths ? paths.substring(paths.lastIndexOf('/') + 1, paths.lastIndexOf('.')) : ''
+    // this.content = ''
+    // this.title = ''
+    // this.date = ''
+    this.staticDir = this.path ? this.path.replace('.md', '') : ''
     this.tags = []
     this.db = new Store()
-    if (content) {
-      const pasers = this.explain(content)
-      Object.keys(pasers).forEach(e => {
-        this[e] = pasers[e]
-      })
-    }
+    // if (content) {
+    //   const pasers = this.explain(content)
+    //   Object.keys(pasers).forEach(e => {
+    //     this[e] = pasers[e]
+    //   })
+    // }
 
     if (typeof this.tags === 'string') this.tags = this.tags.split(',').filter(e => e.length > 0)
   }
 
   save () {
-    if (!this.id) {
+    if (!this._id) {
       const hexoProjPath = this.db.get(CONSTANT.HEXO_PROJ_PATH)
       const doc = this.db.get(CONSTANT.CONFIG)
       const paths = `${hexoProjPath}${path.sep}${doc.source_dir}${path.sep}_posts`
@@ -41,7 +60,7 @@ export default class Post {
       }).join('')
       this.staticDir = `${paths}${path.sep}${this.fileName}`
       const postPath = `${paths}${path.sep}${this.fileName}.md`
-      this.id = postPath
+      this._id = postPath
       this.path = postPath
     }
 

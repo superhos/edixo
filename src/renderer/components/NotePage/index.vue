@@ -15,14 +15,9 @@
 
 <script>
   import moment from 'moment'
-  import CONSTANT from '../../../common/constant'
-  import Post from '../../model/post.js'
   import SearchBar from '../SearchBar'
   import NoteList from '../NoteList'
   import NoteContentPage from '../NoteContentPage'
-  const fs = require('fs')
-  const path = require('path')
-  const yaml = require('js-yaml')
   
   export default {
     name: 'note-page',
@@ -43,19 +38,20 @@
     methods: {
       initPost () {
         // get the config
-        const hexoProjPath = this.$db.get(CONSTANT.HEXO_PROJ_PATH)
-        var doc = yaml.safeLoad(fs.readFileSync(`${hexoProjPath}${path.sep}_config.yml`, 'utf8'))
-        this.$db.set(CONSTANT.CONFIG, doc)
-        const paths = `${hexoProjPath}${path.sep}${doc.source_dir}${path.sep}_posts`
-        const fileNames = fs.readdirSync(`${paths}`)
-        const files = []
-        fileNames.forEach(e => {
-          if (!fs.statSync(`${paths}${path.sep}${e}`).isDirectory() && e.substring(e.length - 3) === '.md') {
-            files.push(new Post(fs.readFileSync(`${paths}${path.sep}${e}`).toString(), `${paths}${path.sep}${e}`))
-          }
-        })
-        this.$store.dispatch('addPosts', files)
-        this.$store.dispatch('showPost', files[0].id)
+        // const hexoProjPath = this.$db.get(CONSTANT.HEXO_PROJ_PATH)
+        // var doc = yaml.safeLoad(fs.readFileSync(`${hexoProjPath}${path.sep}_config.yml`, 'utf8'))
+        // this.$db.set(CONSTANT.CONFIG, doc)
+        // const paths = `${hexoProjPath}${path.sep}${doc.source_dir}${path.sep}_posts`
+        // const fileNames = fs.readdirSync(`${paths}`)
+        // const files = []
+        // fileNames.forEach(e => {
+        //   if (!fs.statSync(`${paths}${path.sep}${e}`).isDirectory() && e.substring(e.length - 3) === '.md') {
+        //     files.push(new Post(fs.readFileSync(`${paths}${path.sep}${e}`).toString(), `${paths}${path.sep}${e}`))
+        //   }
+        // })
+        this.$store.dispatch('initPosts')
+        // this.$store.dispatch('addPosts', files)
+        // this.$store.dispatch('showPost', files[0]._id)
       }
     }
   }

@@ -18,15 +18,28 @@ export default class Hexo {
     }
   }
 
-  static async initBlog (path, name) {
-    const cmd = `cd ${path} && hexo init ${name} && echo 1`
+  static async initBlog (paths, name) {
+    const cmd = `cd ${paths} && hexo init ${name} && echo 1`
     const { error } = await Hexo.run(`${cmd}`)
     if (error) {
       let errs = error.toString().split('\n').filter(e => e.indexOf('Error') > -1)
       return {result: false, msg: (errs[1] || errs[0])}
-    } else {
-      return {result: true}
     }
+
+    // hexo g
+    const genCmd = `cd ${path.resolve(paths, name)} && hexo g && echo 1`
+    await Hexo.run(`${genCmd}`)
+    return {result: true}
+  }
+
+  static async addPost (paths, name) {
+    const cmd = `cd ${paths} && hexo n '${name}' && echo 1`
+    const { error } = await Hexo.run(`${cmd}`)
+    if (error) {
+      let errs = error.toString().split('\n').filter(e => e.indexOf('Error') > -1)
+      return {result: false, msg: (errs[1] || errs[0])}
+    }
+    return {result: true}
   }
 
   static checkIsHexoPath (hexoPath) {

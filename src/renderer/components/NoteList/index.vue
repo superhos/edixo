@@ -1,7 +1,7 @@
 <template>
   <div class="list" :style="contentStyle">
     <ul>
-      <li @click="showPost(item.id)" v-for="item in posts" :key="item.id" :class="{ active: curPost.id === item.id }">
+      <li @click="showPost(item._id)" v-for="item in posts" :key="item._id" :class="{ active: curPost._id === item._id }">
         <i class="el-icon-document"></i>
         <span class="title">{{ item.title }}</span>
         <span class="date">{{ time(item.date) }}</span>

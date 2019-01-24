@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import CONSTANT from '../../common/constant'
-import Store from 'electron-store'
 
 Vue.use(Router)
-const db = new Store()
 
 const router = new Router({
   routes: [
@@ -24,9 +22,9 @@ const router = new Router({
       component: require('@/components/NotePage').default
     },
     {
-      path: '/select',
-      name: 'select-folder',
-      component: require('@/components/SelectFolder').default
+      path: '/enter',
+      name: 'enter-page',
+      component: require('@/components/EnterPage').default
     },
     {
       path: '*',
@@ -37,10 +35,10 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   console.log(to.matched)
-  console.log(to.matched.some(way => way.path === '/select'))
-  if (!db.get(CONSTANT.HEXO_PROJ_PATH) && !to.matched.some(way => way.path === '/select')) {
+  console.log(to.matched.some(way => way.path === '/enter'))
+  if (!Vue.$db.get(CONSTANT.HEXO_PROJ_PATH) && !to.matched.some(way => way.path === '/enter')) {
     next({
-      path: '/select',
+      path: '/enter',
       params: { nextUrl: to.fullPath }
     })
   } else {
