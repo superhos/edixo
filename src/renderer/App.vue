@@ -20,7 +20,7 @@
     name: 'Edixo',
     methods: {
       addPost () {
-        this.$store.dispatch('addPost')
+        this.$store.dispatch('addNewPost')
       }
     }
   }

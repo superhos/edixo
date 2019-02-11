@@ -38,6 +38,10 @@
       </el-popover>
       <button @click="selectDic">{{ $t('message.select_hexo_folder') }}</button>
     </div>
+    <div class="lang-control">
+      <span @click="changLang('zh-cn')" :class="lang === 'zh-cn'?'selected':''">中</span>
+      <span @click="changLang('en')" :class="lang === 'en'?'selected':''">English</span>
+    </div>
   </div>
 </template>
 
@@ -57,7 +61,8 @@ export default {
       showLoading: false,
       showInputName: false,
       blogName: '',
-      loadingMsg: ''
+      loadingMsg: '',
+      lang: this.$db.get(CONSTANT.LANGUAGE) || 'en'
     }
   },
   mounted () {
@@ -115,6 +120,11 @@ export default {
         this.$db.set(CONSTANT.HEXO_PROJ_PATH, pathName[0])
         this.$electron.ipcRenderer.sendSync('open-main')
       })
+    },
+    changLang (lang) {
+      this.$i18n.locale = lang
+      this.lang = lang
+      this.$db.set(CONSTANT.LANGUAGE, lang || 'en')
     }
   }
 }
@@ -276,5 +286,27 @@ export default {
     z-index: 9;
     transform: rotate(-45deg);
   }
+
+}
+
+.lang-control {
+  z-index: 99;
+  color: #afafaf;
+  position: absolute;
+  right: 1vh;
+  top: 1vh;
+  font-size: 13px;
+  cursor: pointer;
+
+  span {
+    margin-right:5px;
+    cursor: pointer;
+  }
+
+  span.selected {
+    font-weight: bold;
+    color: #7a7a7a;
+  }
+
 }
 </style>

@@ -76,6 +76,7 @@ export default {
         this.curId = this.$store.state.Post.cur._id
         this.editMode = !this.curId
       }
+      console.log(this.$store.state.Post.cur)
       return _.cloneDeep(this.$store.state.Post.cur)
     }
   },
@@ -132,7 +133,7 @@ export default {
     changeHandle () {
       this.isChange = true
       if (new Date().getTime() - this.lastModifyTime > this.autoSaveGap && this.editMode && this.isChange) {
-        this.save(true)
+        // this.save(true)
       }
       this.lastModifyTime = new Date().getTime()
     },

@@ -32,6 +32,12 @@ export default class Hexo {
     return {result: true}
   }
 
+  static async genBlog (paths) {
+    const genCmd = `cd ${path.resolve(paths)} && hexo g && echo 1`
+    await Hexo.run(`${genCmd}`)
+    return {result: true}
+  }
+
   static async addPost (paths, name) {
     const cmd = `cd ${paths} && hexo n '${name}' && echo 1`
     const { error } = await Hexo.run(`${cmd}`)

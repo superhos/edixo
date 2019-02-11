@@ -8,6 +8,7 @@ import Store from 'electron-store'
 import 'mavon-editor/dist/css/index.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
+import CONSTANT from '../common/constant'
 import langs from './locale'
 import router from './router'
 import store from './store'
@@ -22,8 +23,14 @@ Vue.use(mavonEditor)
 
 Vue.$db = Vue.prototype.$db = new Store()
 
+let curLang = Vue.$db.get(CONSTANT.LANGUAGE)
+if (!curLang) {
+  curLang = 'en'
+  Vue.$db.set(CONSTANT.LANGUAGE, curLang)
+}
+
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: curLang,
   messages: langs
 })
 

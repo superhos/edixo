@@ -5,6 +5,7 @@ import CONSTANT from '../../../common/constant.js'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import moment from 'moment'
 
 const state = {
   posts: [],
@@ -66,7 +67,7 @@ const mutations = {
 }
 
 const actions = {
-  initPosts ({commit}) {
+  async initPosts ({commit}) {
     const hexoProjPath = Vue.$db.get(CONSTANT.HEXO_PROJ_PATH)
     var doc = yaml.safeLoad(fs.readFileSync(`${path.resolve(hexoProjPath, '_config.yml')}`, 'utf8'))
     Vue.$db.set(CONSTANT.CONFIG, doc)
@@ -75,11 +76,15 @@ const actions = {
     if (!fs.existsSync(dbConfigPath)) {
       return
     }
+    // 初始化
+    await Hexo.genBlog(hexoProjPath)
     const dbConfig = JSON.parse(fs.readFileSync(`${dbConfigPath}`).toString())
+    console.log(dbConfig)
     const posts = []
     dbConfig.models.Post.forEach(post => {
       posts.push(new Post(post, sourcePath))
     })
+    console.log(posts)
     commit('INIT_POSTS', posts)
   },
   addPosts ({commit}, posts) {
@@ -102,7 +107,7 @@ const actions = {
   },
   async addNewPost ({commit}, post) {
     const hexoProjPath = Vue.$db.get(CONSTANT.HEXO_PROJ_PATH)
-    const res = await Hexo.addPost(hexoProjPath, post.title)
+    const res = await Hexo.addPost(hexoProjPath, moment().format('YYYY-MM-DD HH:mm:ss'))// post.title)
 
     if (!res.result) {
       console.log('新建失败')
